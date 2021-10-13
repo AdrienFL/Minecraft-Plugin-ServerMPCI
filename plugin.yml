@@ -2,3 +2,10 @@ name: MinecraftPlugin
 version: 0.0.1
 author: Adrien13720
 main: fr.adrien13720.minecraftplugin.Main
+commands:
+  test:
+    description: Ceci est une commande de test
+    permission: test.use
+  alert:
+    description: Ceci est une commande d'alerte
+    permission: bc.use
