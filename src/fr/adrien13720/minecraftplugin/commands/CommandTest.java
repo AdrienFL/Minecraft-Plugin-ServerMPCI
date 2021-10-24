@@ -32,7 +32,34 @@ public class CommandTest implements CommandExecutor {
 					for(String part : args) {
 						bc.append(part + " ");
 					}
-					Bukkit.broadcastMessage("Annonce : "+bc.toString());
+					
+					switch(args[0]) {
+					
+					case("magic"):
+						bc.delete(0, 5);
+						Bukkit.broadcastMessage("Annonce : "+ChatColor.MAGIC+bc.toString());
+						break;
+					
+					case("bold"):
+						bc.delete(0, 4);
+						Bukkit.broadcastMessage("Annonce : "+ChatColor.BOLD+ bc.toString());
+						break;
+						
+					case("red"):
+						bc.delete(0, 3);
+						Bukkit.broadcastMessage("Annonce : "+ChatColor.RED+ bc.toString());
+						break;
+
+					case("gold"):
+						bc.delete(0, 4);
+						Bukkit.broadcastMessage("Annonce : "+ChatColor.GOLD+ bc.toString());
+						break;
+						
+					default:
+						Bukkit.broadcastMessage("Annonce : "+ bc.toString());
+
+					}
+
 				}
 				return true;
 			}

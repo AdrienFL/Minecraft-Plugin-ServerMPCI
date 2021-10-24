@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class CommandTp implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { // Commande de TP au spawn
 		
 		if(sender instanceof Player) {
 			Player player = (Player) sender;

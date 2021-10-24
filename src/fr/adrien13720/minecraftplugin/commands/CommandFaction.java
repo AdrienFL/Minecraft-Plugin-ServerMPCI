@@ -38,8 +38,6 @@ public class CommandFaction implements CommandExecutor {
 				player.sendMessage("§cCette sous commande n'est pas valide");
 				return false;
 			}
-		
-		
 			commands.get(args[0]).onCommand(player, cmd, args);
 			return true;
 		}
