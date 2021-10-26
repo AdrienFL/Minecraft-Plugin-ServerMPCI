@@ -34,12 +34,15 @@ public class CreateSubcommand extends SubCommand {
 				}
 				Team playerteam = CommandFaction.board.getTeam(args[1]);
 				playerteam.addEntry(player.getName());
+				CommandFaction.teamleaders.add(player);
+				CommandFaction.teamleadersnames.add(player.getName());
 				playerteam.setPrefix("[" + playerteam.getName()+ "] ");
-				player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + player.getName() + ChatColor.WHITE);
+				player.setPlayerListName(playerteam.getColor() + "[" + playerteam.getName() + "] "  + ChatColor.BLACK +"[Chef] "+ playerteam.getColor() + player.getName());
+				player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] " + playerteam.getColor() + player.getName() + ChatColor.WHITE);
 				return true;
 		}
 		else {
-			player.sendMessage("§cCe nom de faction est déjà utilisé");
+			player.sendMessage("§cCe nom de faction est déjà utilisé ou a déjà été utilisé");
 			return false;
 		}			
 	}

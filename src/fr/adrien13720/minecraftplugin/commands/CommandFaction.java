@@ -23,7 +23,8 @@ public class CommandFaction implements CommandExecutor {
 	public static Objective objective = board.registerNewObjective("Factions", "dummy", "Factions Title"); //Creation du scoreboard Factions   
 	public static Set <Team> teams = board.getTeams();
 	public static Set <String> teamnames = new HashSet<>();
-
+	public static Set <Player> teamleaders = new HashSet<>();
+	public static Set <String> teamleadersnames = new HashSet<>();
 
 	private Map<String, SubCommand> commands = new HashMap<>();
 	

@@ -113,14 +113,21 @@ public class ColorSubCommand extends SubCommand {
 		}
 		for(Team team : CommandFaction.teams) {
 			if(team.hasEntry(player.getName())) {
-				Team playerteam = team;
-				playerteam.setColor(color);
-				
-				for (String playername : playerteam.getEntries()) {
-					Bukkit.getPlayer(playername).setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + playername + ChatColor.WHITE);
+				if (CommandFaction.teamleadersnames.contains(player.getName())) {
+					Team playerteam = team;
+					playerteam.setColor(color);
+					playerteam.setPrefix(playerteam.getColor() + "[" +playerteam.getName() + "] ");
+					for (String playername : playerteam.getEntries()) {
+						Bukkit.getPlayer(playername).setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + playername + ChatColor.WHITE);
+					}
+					player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName() + ChatColor.WHITE);
+					player.setPlayerListName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName());
+					player.sendMessage("La couleur de la faction a été modifiée");
+					return true;
 				}
-				player.sendMessage("La couleur de l'équipe a été modifiée");
-				return true;
+				else {
+					player.sendMessage("§cVous n'etes pas chef de votre faction");
+				}
 			}
 			else {
 				player.sendMessage("Vous n'etes pas dans une faction");
