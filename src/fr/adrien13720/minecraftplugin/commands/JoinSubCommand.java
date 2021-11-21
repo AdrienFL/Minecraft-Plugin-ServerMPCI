@@ -21,9 +21,11 @@ public class JoinSubCommand extends SubCommand {
 				}
 			}
 			for (Team team : CommandFaction.teams) {
-				if (team.getName() == args[1]) {
+				
+				if (team.getName().equals(args[1])) {
 					team.addEntry(player.getName());
 					player.setDisplayName(team.getColor()+ "[" + team.getName() + "] " + player.getName() + ChatColor.WHITE);
+					player.setPlayerListName(team.getColor() + "[" + team.getName() + "] " + team.getColor() + player.getName());
 					player.sendMessage("§6Vous avez rejoint la faction :" + team.getName());
 					return true;
 				}

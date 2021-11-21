@@ -42,6 +42,7 @@ public class MinecraftPluginlisteners implements Listener {
 		for(Team team : CommandFaction.teams) {
 			if(team.hasEntry(player.getName())) {
 				player.setDisplayName(team.getColor() + "[" + team.getName() + "] " + player.getName() + ChatColor.WHITE);
+				 
 			}
 			if(team.hasEntry(player.getName()) && CommandFaction.teamleadersnames.contains(player.getName())) {
 				player.setDisplayName(team.getColor() + "[" + team.getName() + "] " + ChatColor.BLACK + "[Chef] " + team.getColor() + player.getName()  + ChatColor.WHITE);
@@ -148,13 +149,13 @@ public class MinecraftPluginlisteners implements Listener {
 		Scoreboard sideboard = manager.getNewScoreboard();
 		Objective obj = sideboard.registerNewObjective("Factions2", "dummy", "§5S§de§1r§2v§ee§6u§cr §5M§dP§1C§2I");
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		Score score = obj.getScore(ChatColor.BLUE + "=-=-=-=-=-=-=-=-=-");
+		Score score = obj.getScore(ChatColor.BLUE + "=-=-=-=-=-=-=-=-");
 		score.setScore(4);
 		Score score2 = obj.getScore(ChatColor.AQUA + "Online Players : "+ ChatColor.DARK_AQUA + Bukkit.getOnlinePlayers().size());
 		score2.setScore(3);
 		Score score3 = obj.getScore(ChatColor.AQUA + "Kills : " + ChatColor.DARK_AQUA + player.getStatistic(Statistic.PLAYER_KILLS));
 		score3.setScore(2);
-		Score score4 = obj.getScore(ChatColor.BLUE + "-=-=-=-=-=-=-=-=-=");
+		Score score4 = obj.getScore(ChatColor.BLUE + "-=-=-=-=-=-=-=-=");
 		score4.setScore(1);
 		Score score5 = obj.getScore(ChatColor.GOLD + "ip : mpci.apexmc.co");
 		score5.setScore(0);

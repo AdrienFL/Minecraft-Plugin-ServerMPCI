@@ -14,8 +14,12 @@ public class CreateSubcommand extends SubCommand {
 	public boolean onCommand(Player player, Command command, String[] args) {
 
 		
-		if(args.length == 1) { // teste s'il y a un nom de faction
-			player.sendMessage("§cUne faction doit avoir un nom, gros débile");
+		if(!(args.length == 2)) { // teste s'il y a un nom de faction
+			player.sendMessage("§cLa commande s'utilise comme : /faction create <nomdefaction>");
+			return false;
+		}
+		if(args[1].length() >= 16) {
+			player.sendMessage("§cCe nom de faction est trop long");
 			return false;
 		}
 
@@ -26,12 +30,15 @@ public class CreateSubcommand extends SubCommand {
 			}
 		}
 		
-		if(!(CommandFaction.teamnames.contains(args[1]))) { // test si la faction existe déjà
+		if(!(CommandFaction.teamnames.contains(args[1]))) { // teste si la faction existe déjà
 				CommandFaction.board.registerNewTeam(args[1]);
 				CommandFaction.teams = CommandFaction.board.getTeams();
-				for (Team team : CommandFaction.teams) {
-					CommandFaction.teamnames.add(team.getName());
-				}
+
+				//for (Team team : CommandFaction.teams) {
+					//CommandFaction.teamnames.add(team.getName());
+				//}
+				CommandFaction.teamnames.add(args[1]);
+				System.out.println(CommandFaction.teamnames);
 				Team playerteam = CommandFaction.board.getTeam(args[1]);
 				playerteam.addEntry(player.getName());
 				CommandFaction.teamleaders.add(player);

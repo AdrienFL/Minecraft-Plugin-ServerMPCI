@@ -119,6 +119,8 @@ public class ColorSubCommand extends SubCommand {
 					playerteam.setPrefix(playerteam.getColor() + "[" +playerteam.getName() + "] ");
 					for (String playername : playerteam.getEntries()) {
 						Bukkit.getPlayer(playername).setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + playername + ChatColor.WHITE);
+						Bukkit.getPlayer(playername).setPlayerListName(team.getColor() + "[" + team.getName() + "] " + team.getColor() + player.getName());
+
 					}
 					player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName() + ChatColor.WHITE);
 					player.setPlayerListName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName());

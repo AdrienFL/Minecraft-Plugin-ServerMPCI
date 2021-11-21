@@ -35,6 +35,11 @@ public class CommandFaction implements CommandExecutor {
 		
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
+			if(args.length == 0) { //teste si le joueur a mis des arguments
+				player.sendMessage("§cCette commande s'utilise avec des arguments");
+				return false;
+			}
+			
 			if(!commands.containsKey(args[0])) { // test si la sous commande est valide
 				player.sendMessage("§cCette sous commande n'est pas valide");
 				return false;
