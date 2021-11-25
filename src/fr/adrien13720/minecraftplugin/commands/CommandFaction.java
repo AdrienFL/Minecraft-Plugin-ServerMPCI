@@ -1,7 +1,9 @@
 package fr.adrien13720.minecraftplugin.commands;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -16,7 +19,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 
-public class CommandFaction implements CommandExecutor {
+public class CommandFaction implements TabExecutor {
 	
 	public static ScoreboardManager manager = Bukkit.getScoreboardManager();
 	public static Scoreboard board = manager.getNewScoreboard();
@@ -25,7 +28,10 @@ public class CommandFaction implements CommandExecutor {
 	public static Set <String> teamnames = new HashSet<>();
 	public static Set <Player> teamleaders = new HashSet<>();
 	public static Set <String> teamleadersnames = new HashSet<>();
-
+	public static HashMap<Player, Integer> diamondcount = new HashMap<Player, Integer>();
+	
+	
+	
 	private Map<String, SubCommand> commands = new HashMap<>();
 	
 	
@@ -53,6 +59,78 @@ public class CommandFaction implements CommandExecutor {
 
 	public void registerCommand(String cmd, SubCommand subcommand) { //ajoute une nouvelle sous commande dans la hashmap
 		commands.put(cmd, subcommand);
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmd2, String[] args){
+		
+		List<String> autoCompletes = new ArrayList<>();
+		if(cmd.getName().equalsIgnoreCase("faction")) {
+			
+
+			
+			if(args.length == 1) {
+				
+				autoCompletes.add("color");
+				autoCompletes.add("create");
+				autoCompletes.add("join");
+				autoCompletes.add("leave");
+				autoCompletes.add("list");
+				autoCompletes.add("promote");
+				
+				return autoCompletes;
+			
+			}
+			
+			if(args.length == 2) {
+				switch(args[0]) {
+				case("create"):
+					autoCompletes.add("nomdefaction");
+					break;
+				case("color"):
+					autoCompletes.add("green");
+					autoCompletes.add("yellow");
+					autoCompletes.add("red");
+					autoCompletes.add("gold");
+					autoCompletes.add("gray");
+					autoCompletes.add("aqua");
+					autoCompletes.add("white");
+					autoCompletes.add("blue");
+					autoCompletes.add("black");
+					autoCompletes.add("purple");
+					autoCompletes.add("darkpurple");
+					autoCompletes.add("darkgreen");
+					autoCompletes.add("darkred");
+					autoCompletes.add("darkgray");
+					autoCompletes.add("darkaqua");
+					autoCompletes.add("darkblue");
+					break;
+				case("join"):
+					for(Team team : teams) {
+						autoCompletes.add(team.getName());
+					}
+					break;
+				case("promote"):
+					for(Team team : teams) {
+						if(team.hasEntry(sender.getName())) {
+							Team sender_team = team;
+							for(Player player : Bukkit.getOnlinePlayers()) {
+								if(sender_team.hasEntry(player.getName())) {
+									autoCompletes.add(player.getName());
+								}
+							}
+						}
+					}
+					break;
+				default:
+					break;				
+				}
+				return autoCompletes;
+			}
+
+		}
+		return null;
+		
 	}
 		
 }

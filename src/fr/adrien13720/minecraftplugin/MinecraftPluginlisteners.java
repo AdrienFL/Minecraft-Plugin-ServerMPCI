@@ -1,20 +1,34 @@
 package fr.adrien13720.minecraftplugin;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimerTask;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -22,8 +36,12 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.util.BoundingBox;
 
 import fr.adrien13720.minecraftplugin.commands.CommandFaction;
+import net.minecraft.core.IRegistryCustom.Dimension;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.dimension.WorldDimension;
 
 public class MinecraftPluginlisteners implements Listener {
 	
@@ -54,34 +72,62 @@ public class MinecraftPluginlisteners implements Listener {
 		start(event.getPlayer());
 		//Change le message de join dans le chat
 		switch(player.getName()) {
-		 
-			case "Adrien13720":
-				event.setJoinMessage("§6Un énorme bg : §b" + player.getName() + "§2 est arrivé sur le server.");
-				break;
-			
-			case "MagicZemmour":
-				event.setJoinMessage("§4Le Z est dans la place : " + player.getName());
-				break;
-			// Autre cas à rajouter à l'infini
-			
-			default:
-				event.setJoinMessage("Bienvenue à toi " + player.getName());
-			
+        
+	    case "Adrien13720":
+	        event.setJoinMessage("§bLe programmeur fou, " + ChatColor.GOLD +player.getName() + "§b vient pour hacker vos diamands!");
+	        break;
+	            
+	    case "MagicZemmour":
+	        event.setJoinMessage("§bMigrants à couvert! " + player.getName() + "§b arrive pour vous sniper!");
+	        break;
+	                
+	    case "nitneuq":
+	        event.setJoinMessage("§aMairsi dakeuir " + player.getName() + "§a !!");
+	        break;
+	            
+	    case "kribou29":
+	        event.setJoinMessage("§5Alerte! " + player.getName() + "§5aka le Deuhman arrive pour deuh le serveur!");
+	        break;
+	            
+	    case "Spatabaz":
+	        event.setJoinMessage("§4Les §efilles... §cPréparez §avooosss §banus! §aCar " + player.getName() + " §dvient d'intégrer le serveur!");
+	        break;
+	                
+	    case "TraffyCrom":
+	        event.setJoinMessage("§6Putain! " + player.getName() + "§6 a encore fait tomber un truc dans le serveur!");
+	        break;
+	                
+	    case "Roctalite":
+	        event.setJoinMessage("§eZioouup! " + player.getName() + "§e vient de se glisser dans le serveur!");
+	        break;
+	            
+	    default:
+	        event.setJoinMessage("Bienvenue à toi " + player.getName());
+	            
+	        
+	}
 		
+		if(!player.getInventory().contains(Material.COMPASS)) {
+			ItemStack menucompass = new ItemStack(Material.COMPASS, 1);
+			ItemMeta menucompassmeta = menucompass.getItemMeta();
+			menucompassmeta.setDisplayName("Compas Menu");
+			Inventory inventory = player.getInventory();
+			menucompass.setItemMeta(menucompassmeta);
+			inventory.addItem(menucompass);
+			player.updateInventory();
 		}
-		
-
-		
-		
-		
-		
-		
+		 
+		updateplayerdiamondscoreboard();
+		if(CommandFaction.diamondcount.get(player) == null) {
+			CommandFaction.diamondcount.put(player, 0);
+		}
 		
 	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
 		FirstBoard board = new FirstBoard(event.getPlayer().getUniqueId());
+		
 		if (board.hasID()) {
 			board.stop();
 		}
@@ -89,7 +135,7 @@ public class MinecraftPluginlisteners implements Listener {
 	
 
 	
-	public void start(Player player) {
+	public void start(Player player) { //scoreboard dynamique 
 		long a = 0;
 		long b = 10;
 
@@ -108,9 +154,13 @@ public class MinecraftPluginlisteners implements Listener {
 				if (count == 7) {
 					count = 0;
 				}
+				if(player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) == null) {
+					return;
+				}
 				switch(count) {
 				case 0:
 					player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§5S§de§1r§2v§ee§6u§cr §5M§dP§1C§2I");
+					createBoard(player);
 					break;
 				case 1:
 					player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§dS§1e§2r§ev§6e§cu§5r §dM§1P§2C§eI");
@@ -129,7 +179,6 @@ public class MinecraftPluginlisteners implements Listener {
 					break;
 				case 6:
 					player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§cS§5e§dr§1v§2e§eu§6r §cM§5P§dC§1I");
-					createBoard(player);
 					break;
 				}
 				
@@ -173,12 +222,115 @@ public class MinecraftPluginlisteners implements Listener {
 			return;
 		}
 		if(it.getType() == Material.COMPASS && it.getItemMeta().hasDisplayName()) {
-			Inventory inv = Bukkit.createInventory(null, 18, "");
+			Inventory inv = Bukkit.createInventory(null, 27, "§6Menu");
 			player.openInventory(inv);
-			
+			ItemStack diamondscore = new ItemStack(Material.DIAMOND, 1);
+			ItemMeta diamondscoreM = diamondscore.getItemMeta();
+			diamondscoreM.setDisplayName("§bDiamants --> Points");
+			diamondscoreM.setLore(Arrays.asList("Transforme tous vos diamants en points", "§cLes diamants transformés ", "§cne pourront pas être récupérés"));
+			diamondscore.setItemMeta(diamondscoreM);
+			inv.setItem(10, diamondscore);
+			player.updateInventory();
 		}
 		
 	}
+
+	@EventHandler
+	public void onClick(InventoryClickEvent event) {
+		Inventory inv = event.getInventory();
+		Player player = (Player) event.getWhoClicked();
+		ItemStack current = event.getCurrentItem();
+
+		if(current == null) return;
+		
+		if(event.getView().getTitle().equalsIgnoreCase("§6Menu")) {
+			if(current.getType() == Material.DIAMOND) {
+				Inventory validinv = Bukkit.createInventory(null, 27, "§6Validation");
+				player.openInventory(validinv);
+				ItemStack validclay = new ItemStack(Material.GREEN_TERRACOTTA, 1);
+				ItemStack nonvalidclay = new ItemStack(Material.RED_TERRACOTTA, 1);
+				ItemMeta validclayM = validclay.getItemMeta();
+				ItemMeta nonvalidclayM = nonvalidclay.getItemMeta();
+				validclayM.setDisplayName("§aValider le transfert");
+				nonvalidclayM.setDisplayName("§cArreter le transfert");
+				validclay.setItemMeta(validclayM);
+				nonvalidclay.setItemMeta(nonvalidclayM);
+				validinv.setItem(12, validclay);
+				validinv.setItem(14, nonvalidclay);
+				player.updateInventory();
+				return;
+				
+			}
+		}
+		if(event.getView().getTitle().equalsIgnoreCase("§6Validation")) {
+			if(current.getType() == Material.GREEN_TERRACOTTA) {
+				int diamondnumber = 0;
+				for(ItemStack it : player.getInventory().getContents()) {
+					if(it != null) {
+						if(it.getType() == Material.DIAMOND && !it.getItemMeta().hasDisplayName()) {
+							
+						diamondnumber += it.getAmount();
+						player.getInventory().remove(it);
+						}
+					}
+				}
+				CommandFaction.diamondcount.put(player, CommandFaction.diamondcount.get(player) + diamondnumber);
+				player.closeInventory();
+				return;
+			}
+			if(current.getType() == Material.RED_TERRACOTTA) {
+				player.closeInventory();
+				return;
+			}
+		}
+		return;
+	}
+	
+	public ArrayList<Player> getordermap(HashMap<Player, Integer> map){
+		ArrayList<Player> playerdiamondlist = new ArrayList<>();
+		for(Player player : CommandFaction.diamondcount.keySet()) {
+			playerdiamondlist.add(player);
+		}
+		
+		for(int i = 1; i <= playerdiamondlist.size() - 1; i++) {
+			Player x = playerdiamondlist.get(i);
+			int j = i;
+			while(j > 0 && CommandFaction.diamondcount.get(playerdiamondlist.get(j - 1)) < CommandFaction.diamondcount.get(x)) {
+				playerdiamondlist.add(j, playerdiamondlist.get(j-1));
+				j = j - 1;
+			}
+			playerdiamondlist.add(j, x);
+			
+		}
+		return playerdiamondlist;
+	}
+	
+	public void updateplayerdiamondscoreboard() {
+		BoundingBox box = new BoundingBox(-4, 60, -4, 4, 90, 4);
+		Collection <Entity> entitiesList = Bukkit.getWorld("world").getNearbyEntities(box);
+		for(Entity entity : entitiesList) {
+			entity.remove();
+			System.out.println("les pd ont été supprimés");
+		}
+		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 0, 80, 0) , EntityType.ARMOR_STAND);
+        hologram.setVisible(false);
+        hologram.setGravity(false);
+        hologram.setCustomNameVisible(true);
+        hologram.setCustomName(ChatColor.RED + "Classement Joueurs/Diamants");
+        //Second line
+        for(int i = 0; i <= 9; i++) {
+        	if(i < getordermap(CommandFaction.diamondcount).size()) {
+        		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 0, 79.6 - 0.4*i, 0) , EntityType.ARMOR_STAND);
+        		hologram2.setVisible(false);
+        		hologram2.setGravity(false);
+        		hologram2.setCustomNameVisible(true);
+        		hologram2.setCustomName(ChatColor.GOLD + Integer.toString(i + 1) +": " + getordermap(CommandFaction.diamondcount).get(i).getName() + "  "+ CommandFaction.diamondcount.get(getordermap(CommandFaction.diamondcount).get(i)));
+
+        	
+        	}
+        }
+	}
+	
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) { //gere les messages dans le chat

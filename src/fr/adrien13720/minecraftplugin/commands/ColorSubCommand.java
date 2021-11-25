@@ -53,11 +53,11 @@ public class ColorSubCommand extends SubCommand {
 				colorcode = "§6";
 				color = ChatColor.GOLD;
 				break;
-			case "grey":
+			case "gray":
 				colorcode = "§7";
 				color = ChatColor.GRAY;
 				break;
-			case "darkgrey":
+			case "darkgray":
 				colorcode = "§8";
 				color = ChatColor.DARK_GRAY;
 				break;
@@ -129,6 +129,7 @@ public class ColorSubCommand extends SubCommand {
 				}
 				else {
 					player.sendMessage("§cVous n'etes pas chef de votre faction");
+					return false;
 				}
 			}
 			else {

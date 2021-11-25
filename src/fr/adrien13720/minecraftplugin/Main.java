@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
 		faction.registerCommand("promote", new PromoteSubCommand());
 		getServer().getPluginManager().registerEvents(new MinecraftPluginlisteners(), this);
 		CommandFaction.objective.setDisplaySlot(DisplaySlot.PLAYER_LIST); //Scoreboard au niveau du tab
-
+		
 		
 
 	}

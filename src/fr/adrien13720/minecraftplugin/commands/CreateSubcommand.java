@@ -33,12 +33,7 @@ public class CreateSubcommand extends SubCommand {
 		if(!(CommandFaction.teamnames.contains(args[1]))) { // teste si la faction existe déjà
 				CommandFaction.board.registerNewTeam(args[1]);
 				CommandFaction.teams = CommandFaction.board.getTeams();
-
-				//for (Team team : CommandFaction.teams) {
-					//CommandFaction.teamnames.add(team.getName());
-				//}
 				CommandFaction.teamnames.add(args[1]);
-				System.out.println(CommandFaction.teamnames);
 				Team playerteam = CommandFaction.board.getTeam(args[1]);
 				playerteam.addEntry(player.getName());
 				CommandFaction.teamleaders.add(player);

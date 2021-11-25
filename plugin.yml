@@ -2,6 +2,7 @@ name: MinecraftPlugin
 version: 0.0.1
 author: Adrien13720
 main: fr.adrien13720.minecraftplugin.Main
+api-version: 1.17
 commands:
   test:
     description: Ceci est une commande de test

@@ -1,15 +1,19 @@
 package fr.adrien13720.minecraftplugin.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class CommandTest implements CommandExecutor {
+public class CommandTest implements TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
@@ -35,6 +39,17 @@ public class CommandTest implements CommandExecutor {
 					
 					switch(args[0]) {
 					
+					case("message"):
+						if(Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1])) && Bukkit.getPlayer(args[1]) != null) {
+							Player player1 = Bukkit.getPlayer(args[1]);
+							bc.delete(0, 9 + Bukkit.getPlayer(args[1]).getName().length());
+							player1.chat(bc.toString());
+						}
+						else {
+							player.sendMessage("§cLa commande s'utilise comme /alert message <joueur> <message>");
+						}
+						break;
+						
 					case("magic"):
 						bc.delete(0, 5);
 						Bukkit.broadcastMessage("Annonce : "+ChatColor.MAGIC+bc.toString());
@@ -66,4 +81,21 @@ public class CommandTest implements CommandExecutor {
 		}
 		return false;
 	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmd2, String[] args){
+		List<String> autoCompletes = new ArrayList<>();
+		if(cmd.getName().equalsIgnoreCase("alert")) {
+			if(args.length == 1) {
+				autoCompletes.add("magic");
+				autoCompletes.add("bold");
+				autoCompletes.add("gold");
+				autoCompletes.add("red");
+				autoCompletes.add("message");
+			}
+		}
+		return autoCompletes;
+
+	}
+
 }
