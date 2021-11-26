@@ -14,17 +14,11 @@ public class LeaveSubCommand extends SubCommand {
 		else {
 			for (Team team : CommandFaction.teams) {
 				if (!CommandFaction.teamleadersnames.contains(player.getName())) {
-					if (team.hasEntry(player.getName()) && team.getSize() == 1) { // teste si le joueur est déjà dans une faction
-						player.sendMessage("§6La faction " + team.getName() + " a été dissoute");
-						team.removeEntry(player.getName());
-						player.setDisplayName(player.getName());
-
-						return true;
-					}
 					if (team.hasEntry(player.getName())) {
 						team.removeEntry(player.getName());
 						player.sendMessage("Vous avez quitté la faction : " + team.getName());
 						player.setDisplayName(player.getName());
+						CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) - CommandFaction.diamondcount.get(player));
 						return true;
 					}
 				}
@@ -36,6 +30,7 @@ public class LeaveSubCommand extends SubCommand {
 						CommandFaction.teamleadersnames.remove(player.getName());
 						player.setDisplayName(player.getName());
 						player.setPlayerListName(player.getName());
+						CommandFaction.teamdiamondcount.remove(team);
 						return true;
 					}
 					if (team.hasEntry(player.getName()));

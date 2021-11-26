@@ -41,6 +41,8 @@ public class CreateSubcommand extends SubCommand {
 				playerteam.setPrefix("[" + playerteam.getName()+ "] ");
 				player.setPlayerListName(playerteam.getColor() + "[" + playerteam.getName() + "] "  + ChatColor.BLACK +"[Chef] "+ playerteam.getColor() + player.getName());
 				player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] " + playerteam.getColor() + player.getName() + ChatColor.WHITE);
+				CommandFaction.teamdiamondcount.put(playerteam, 0);
+				CommandFaction.teamdiamondlist.add(playerteam);
 				return true;
 		}
 		else {

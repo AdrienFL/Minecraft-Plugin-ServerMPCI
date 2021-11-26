@@ -125,6 +125,7 @@ public class ColorSubCommand extends SubCommand {
 					player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName() + ChatColor.WHITE);
 					player.setPlayerListName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName());
 					player.sendMessage("La couleur de la faction a été modifiée");
+					
 					return true;
 				}
 				else {

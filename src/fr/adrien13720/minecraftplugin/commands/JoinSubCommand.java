@@ -27,6 +27,8 @@ public class JoinSubCommand extends SubCommand {
 					player.setDisplayName(team.getColor()+ "[" + team.getName() + "] " + player.getName() + ChatColor.WHITE);
 					player.setPlayerListName(team.getColor() + "[" + team.getName() + "] " + team.getColor() + player.getName());
 					player.sendMessage("§6Vous avez rejoint la faction :" + team.getName());
+					CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) + CommandFaction.diamondcount.get(player));
+
 					return true;
 				}
 			}

@@ -66,7 +66,6 @@ public class MinecraftPluginlisteners implements Listener {
 				player.setDisplayName(team.getColor() + "[" + team.getName() + "] " + ChatColor.BLACK + "[Chef] " + team.getColor() + player.getName()  + ChatColor.WHITE);
 				player.setPlayerListName(team.getColor() + "[" + team.getName() + "] " + ChatColor.BLACK + "[Chef] " + team.getColor() + player.getName());
 			}
-
 		}
 		createBoard(player);
 		start(event.getPlayer());
@@ -74,7 +73,7 @@ public class MinecraftPluginlisteners implements Listener {
 		switch(player.getName()) {
         
 	    case "Adrien13720":
-	        event.setJoinMessage("§bLe programmeur fou, " + ChatColor.GOLD +player.getName() + "§b vient pour hacker vos diamands!");
+	        event.setJoinMessage("§bLe programmeur fou, " + ChatColor.GOLD +player.getName() + "§b vient pour hacker vos diamants!");
 	        break;
 	            
 	    case "MagicZemmour":
@@ -117,10 +116,12 @@ public class MinecraftPluginlisteners implements Listener {
 			player.updateInventory();
 		}
 		 
-		updateplayerdiamondscoreboard();
 		if(CommandFaction.diamondcount.get(player) == null) {
 			CommandFaction.diamondcount.put(player, 0);
+			CommandFaction.playerdiamondlist.add(player);
 		}
+		updateplayerdiamondscoreboard();
+		updateteamdiamondscoreboard();
 		
 	}
 	
@@ -275,7 +276,15 @@ public class MinecraftPluginlisteners implements Listener {
 					}
 				}
 				CommandFaction.diamondcount.put(player, CommandFaction.diamondcount.get(player) + diamondnumber);
+				for(Team team : CommandFaction.teams) {
+					if(team.hasEntry(player.getName())) {
+						CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) + diamondnumber);
+					}
+				}
 				player.closeInventory();
+				updateplayerdiamondscoreboard();
+				System.out.println("bruh");
+				updateteamdiamondscoreboard();
 				return;
 			}
 			if(current.getType() == Material.RED_TERRACOTTA) {
@@ -286,31 +295,44 @@ public class MinecraftPluginlisteners implements Listener {
 		return;
 	}
 	
-	public ArrayList<Player> getordermap(HashMap<Player, Integer> map){
-		ArrayList<Player> playerdiamondlist = new ArrayList<>();
-		for(Player player : CommandFaction.diamondcount.keySet()) {
-			playerdiamondlist.add(player);
-		}
+	public void sortplayerdiamondlist(){
 		
-		for(int i = 1; i <= playerdiamondlist.size() - 1; i++) {
-			Player x = playerdiamondlist.get(i);
+		for(int i = 1; i <= CommandFaction.playerdiamondlist.size() - 1; i++) {
+			Player x = CommandFaction.playerdiamondlist.get(i);
 			int j = i;
-			while(j > 0 && CommandFaction.diamondcount.get(playerdiamondlist.get(j - 1)) < CommandFaction.diamondcount.get(x)) {
-				playerdiamondlist.add(j, playerdiamondlist.get(j-1));
+			while(j > 0 && CommandFaction.diamondcount.get(CommandFaction.playerdiamondlist.get(j - 1)) < CommandFaction.diamondcount.get(x)) {
+				CommandFaction.playerdiamondlist.add(j, CommandFaction.playerdiamondlist.get(j-1));
 				j = j - 1;
 			}
-			playerdiamondlist.add(j, x);
+			CommandFaction.playerdiamondlist.add(j, x);
 			
 		}
-		return playerdiamondlist;
+		return;
 	}
 	
+	public void sortteamdiamondlist() {
+
+		for(int i = 1; i <= CommandFaction.teamdiamondlist.size() - 1; i++) {
+			Team x = CommandFaction.teamdiamondlist.get(i);
+			int j = i;
+			while(j > 0 && CommandFaction.teamdiamondcount.get(CommandFaction.teamdiamondlist.get(j - 1)) < CommandFaction.teamdiamondcount.get(x)) {
+				CommandFaction.teamdiamondlist.add(j, CommandFaction.teamdiamondlist.get(j-1));
+				j = j - 1;
+			}
+			CommandFaction.teamdiamondlist.add(j, x);
+			
+		}
+		return;
+	}
+	
+	
 	public void updateplayerdiamondscoreboard() {
+		sortplayerdiamondlist();
 		BoundingBox box = new BoundingBox(-4, 60, -4, 4, 90, 4);
 		Collection <Entity> entitiesList = Bukkit.getWorld("world").getNearbyEntities(box);
 		for(Entity entity : entitiesList) {
+			System.out.println("gg a tpous");
 			entity.remove();
-			System.out.println("les pd ont été supprimés");
 		}
 		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 0, 80, 0) , EntityType.ARMOR_STAND);
         hologram.setVisible(false);
@@ -319,12 +341,48 @@ public class MinecraftPluginlisteners implements Listener {
         hologram.setCustomName(ChatColor.RED + "Classement Joueurs/Diamants");
         //Second line
         for(int i = 0; i <= 9; i++) {
-        	if(i < getordermap(CommandFaction.diamondcount).size()) {
+        	if(i < CommandFaction.diamondcount.size()) {
+            	ChatColor color = ChatColor.WHITE;
+        		Player player = CommandFaction.playerdiamondlist.get(i);
+        		for(Team team : CommandFaction.teams) {
+        			if(team.hasEntry(player.getName())) {
+        				color = team.getColor();
+        			}  			
+        		}
         		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 0, 79.6 - 0.4*i, 0) , EntityType.ARMOR_STAND);
         		hologram2.setVisible(false);
         		hologram2.setGravity(false);
         		hologram2.setCustomNameVisible(true);
-        		hologram2.setCustomName(ChatColor.GOLD + Integer.toString(i + 1) +": " + getordermap(CommandFaction.diamondcount).get(i).getName() + "  "+ CommandFaction.diamondcount.get(getordermap(CommandFaction.diamondcount).get(i)));
+        		hologram2.setCustomName(ChatColor.GOLD + Integer.toString(i + 1) +" : "+ color + player.getName() + "  " + ChatColor.GOLD + CommandFaction.diamondcount.get(player));
+
+        	
+        	}
+        }
+	}
+	
+	public void updateteamdiamondscoreboard() {
+		sortteamdiamondlist();
+		BoundingBox box = new BoundingBox(14, 60, 14, 8, 90, 8);
+		Collection <Entity> entitiesList = Bukkit.getWorld("world").getNearbyEntities(box);
+		for(Entity entity : entitiesList) {
+			entity.remove();
+		}
+		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 11, 80, 11) , EntityType.ARMOR_STAND);
+        hologram.setVisible(false);
+        hologram.setGravity(false);
+        hologram.setCustomNameVisible(true);
+        hologram.setCustomName(ChatColor.RED + "Classement Faction/Diamants");
+        //Second line
+        for(int i = 0; i <= 9; i++) {
+        	if(i < CommandFaction.teamdiamondcount.size()) {
+            	ChatColor color = ChatColor.WHITE;
+        		Team team = CommandFaction.teamdiamondlist.get(i);
+        		
+        		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 11, 79.6 - 0.4*i, 11) , EntityType.ARMOR_STAND);
+        		hologram2.setVisible(false);
+        		hologram2.setGravity(false);
+        		hologram2.setCustomNameVisible(true);
+        		hologram2.setCustomName(ChatColor.GOLD + Integer.toString(i + 1) +" : "+ color + team.getName() + "  "+ ChatColor.GOLD +CommandFaction.teamdiamondcount.get(team));
 
         	
         	}
