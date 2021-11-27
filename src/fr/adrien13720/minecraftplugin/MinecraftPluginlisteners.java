@@ -80,7 +80,7 @@ public class MinecraftPluginlisteners implements Listener {
 	        event.setJoinMessage("§bMigrants à couvert! " + player.getName() + "§b arrive pour vous sniper!");
 	        break;
 	                
-	    case "nitneuq":
+	    case "nitneuq13":
 	        event.setJoinMessage("§aMairsi dakeuir " + player.getName() + "§a !!");
 	        break;
 	            
@@ -301,13 +301,18 @@ public class MinecraftPluginlisteners implements Listener {
 			Player x = CommandFaction.playerdiamondlist.get(i);
 			int j = i;
 			while(j > 0 && CommandFaction.diamondcount.get(CommandFaction.playerdiamondlist.get(j - 1)) < CommandFaction.diamondcount.get(x)) {
+				CommandFaction.playerdiamondlist.remove(j);
 				CommandFaction.playerdiamondlist.add(j, CommandFaction.playerdiamondlist.get(j-1));
 				j = j - 1;
 			}
+			CommandFaction.playerdiamondlist.remove(j);
 			CommandFaction.playerdiamondlist.add(j, x);
 			
 		}
+		System.out.println(CommandFaction.playerdiamondlist);
 		return;
+		
+
 	}
 	
 	public void sortteamdiamondlist() {
@@ -315,10 +320,12 @@ public class MinecraftPluginlisteners implements Listener {
 		for(int i = 1; i <= CommandFaction.teamdiamondlist.size() - 1; i++) {
 			Team x = CommandFaction.teamdiamondlist.get(i);
 			int j = i;
-			while(j > 0 && CommandFaction.teamdiamondcount.get(CommandFaction.teamdiamondlist.get(j - 1)) < CommandFaction.teamdiamondcount.get(x)) {
+			while(j > 0 && CommandFaction.teamdiamondcount.get(CommandFaction.teamdiamondlist.get(j - 1)) <= CommandFaction.teamdiamondcount.get(x)) {
+				CommandFaction.playerdiamondlist.remove(j);
 				CommandFaction.teamdiamondlist.add(j, CommandFaction.teamdiamondlist.get(j-1));
 				j = j - 1;
 			}
+			CommandFaction.playerdiamondlist.remove(j);
 			CommandFaction.teamdiamondlist.add(j, x);
 			
 		}
@@ -329,12 +336,12 @@ public class MinecraftPluginlisteners implements Listener {
 	public void updateplayerdiamondscoreboard() {
 		sortplayerdiamondlist();
 		BoundingBox box = new BoundingBox(-4, 60, -4, 4, 90, 4);
-		Collection <Entity> entitiesList = Bukkit.getWorld("world").getNearbyEntities(box);
+		Collection <Entity> entitiesList = Bukkit.getWorld("MainWorld").getNearbyEntities(box);
 		for(Entity entity : entitiesList) {
 			System.out.println("gg a tpous");
 			entity.remove();
 		}
-		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 0, 80, 0) , EntityType.ARMOR_STAND);
+		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("MainWorld").spawnEntity(new Location(Bukkit.getWorld("MainWorld") , 0, 80, 0) , EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
         hologram.setCustomNameVisible(true);
@@ -349,7 +356,7 @@ public class MinecraftPluginlisteners implements Listener {
         				color = team.getColor();
         			}  			
         		}
-        		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 0, 79.6 - 0.4*i, 0) , EntityType.ARMOR_STAND);
+        		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("MainWorld").spawnEntity(new Location(Bukkit.getWorld("MainWorld") , 0, 79.6 - 0.4*i, 0) , EntityType.ARMOR_STAND);
         		hologram2.setVisible(false);
         		hologram2.setGravity(false);
         		hologram2.setCustomNameVisible(true);
@@ -363,11 +370,11 @@ public class MinecraftPluginlisteners implements Listener {
 	public void updateteamdiamondscoreboard() {
 		sortteamdiamondlist();
 		BoundingBox box = new BoundingBox(14, 60, 14, 8, 90, 8);
-		Collection <Entity> entitiesList = Bukkit.getWorld("world").getNearbyEntities(box);
+		Collection <Entity> entitiesList = Bukkit.getWorld("MainWorld").getNearbyEntities(box);
 		for(Entity entity : entitiesList) {
 			entity.remove();
 		}
-		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 11, 80, 11) , EntityType.ARMOR_STAND);
+		ArmorStand hologram = (ArmorStand) Bukkit.getWorld("MainWorld").spawnEntity(new Location(Bukkit.getWorld("MainWorld") , 11, 80, 11) , EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
         hologram.setCustomNameVisible(true);
@@ -378,7 +385,7 @@ public class MinecraftPluginlisteners implements Listener {
             	ChatColor color = ChatColor.WHITE;
         		Team team = CommandFaction.teamdiamondlist.get(i);
         		
-        		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world") , 11, 79.6 - 0.4*i, 11) , EntityType.ARMOR_STAND);
+        		ArmorStand hologram2 = (ArmorStand) Bukkit.getWorld("MainWorld").spawnEntity(new Location(Bukkit.getWorld("MainWorld") , 11, 79.6 - 0.4*i, 11) , EntityType.ARMOR_STAND);
         		hologram2.setVisible(false);
         		hologram2.setGravity(false);
         		hologram2.setCustomNameVisible(true);
