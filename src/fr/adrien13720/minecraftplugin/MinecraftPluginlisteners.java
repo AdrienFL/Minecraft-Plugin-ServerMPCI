@@ -115,7 +115,7 @@ public class MinecraftPluginlisteners implements Listener {
 			inventory.addItem(menucompass);
 			player.updateInventory();
 		}
-		 
+		System.out.println(CommandFaction.diamondcount.get(player));
 		if(CommandFaction.diamondcount.get(player) == null) {
 			CommandFaction.diamondcount.put(player, 0);
 			CommandFaction.playerdiamondlist.add(player);
