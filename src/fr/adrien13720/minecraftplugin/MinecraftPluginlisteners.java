@@ -115,10 +115,10 @@ public class MinecraftPluginlisteners implements Listener {
 			inventory.addItem(menucompass);
 			player.updateInventory();
 		}
-		System.out.println(CommandFaction.diamondcount.get(player));
-		if(CommandFaction.diamondcount.get(player) == null) {
-			CommandFaction.diamondcount.put(player, 0);
-			CommandFaction.playerdiamondlist.add(player);
+		System.out.println(CommandFaction.diamondcount.get(player.getName()));
+		if(CommandFaction.diamondcount.get(player.getName()) == null) {
+			CommandFaction.diamondcount.put(player.getName(), 0);
+			CommandFaction.playerdiamondlist.add(player.getName());
 		}
 		System.out.println(CommandFaction.diamondcount);
 		updateplayerdiamondscoreboard();
@@ -276,7 +276,7 @@ public class MinecraftPluginlisteners implements Listener {
 						}
 					}
 				}
-				CommandFaction.diamondcount.put(player, CommandFaction.diamondcount.get(player) + diamondnumber);
+				CommandFaction.diamondcount.put(player.getName(), CommandFaction.diamondcount.get(player.getName()) + diamondnumber);
 				for(Team team : CommandFaction.teams) {
 					if(team.hasEntry(player.getName())) {
 						CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) + diamondnumber);
@@ -299,7 +299,7 @@ public class MinecraftPluginlisteners implements Listener {
 	public void sortplayerdiamondlist(){
 		
 		for(int i = 1; i <= CommandFaction.playerdiamondlist.size() - 1; i++) {
-			Player x = CommandFaction.playerdiamondlist.get(i);
+			String x = CommandFaction.playerdiamondlist.get(i);
 			int j = i;
 			while(j > 0 && CommandFaction.diamondcount.get(CommandFaction.playerdiamondlist.get(j - 1)) < CommandFaction.diamondcount.get(x)) {
 				CommandFaction.playerdiamondlist.remove(j);
@@ -351,9 +351,9 @@ public class MinecraftPluginlisteners implements Listener {
         for(int i = 0; i <= 9; i++) {
         	if(i < CommandFaction.diamondcount.size()) {
             	ChatColor color = ChatColor.WHITE;
-        		Player player = CommandFaction.playerdiamondlist.get(i);
+        		String playername = CommandFaction.playerdiamondlist.get(i);
         		for(Team team : CommandFaction.teams) {
-        			if(team.hasEntry(player.getName())) {
+        			if(team.hasEntry(playername)) {
         				color = team.getColor();
         			}  			
         		}
@@ -361,7 +361,7 @@ public class MinecraftPluginlisteners implements Listener {
         		hologram2.setVisible(false);
         		hologram2.setGravity(false);
         		hologram2.setCustomNameVisible(true);
-        		hologram2.setCustomName(ChatColor.GOLD + Integer.toString(i + 1) +" : "+ color + player.getName() + "  " + ChatColor.GOLD + CommandFaction.diamondcount.get(player));
+        		hologram2.setCustomName(ChatColor.GOLD + Integer.toString(i + 1) +" : "+ color + playername + "  " + ChatColor.GOLD + CommandFaction.diamondcount.get(playername));
 
         	
         	}
