@@ -120,6 +120,7 @@ public class MinecraftPluginlisteners implements Listener {
 			CommandFaction.diamondcount.put(player, 0);
 			CommandFaction.playerdiamondlist.add(player);
 		}
+		System.out.println(CommandFaction.diamondcount);
 		updateplayerdiamondscoreboard();
 		updateteamdiamondscoreboard();
 		
