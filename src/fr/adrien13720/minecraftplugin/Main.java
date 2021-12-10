@@ -10,6 +10,7 @@ import org.bukkit.scoreboard.Team;
 
 import fr.adrien13720.minecraftplugin.commands.ColorSubCommand;
 import fr.adrien13720.minecraftplugin.commands.CommandFaction;
+import fr.adrien13720.minecraftplugin.commands.CommandInfo;
 import fr.adrien13720.minecraftplugin.commands.CommandTest;
 import fr.adrien13720.minecraftplugin.commands.CommandTp;
 import fr.adrien13720.minecraftplugin.commands.CreateSubcommand;
@@ -32,6 +33,7 @@ public class Main extends JavaPlugin {
 		getCommand("test").setExecutor(new CommandTest());
 		getCommand("alert").setExecutor(new CommandTest());
 		getCommand("spawn").setExecutor(new CommandTp());
+		getCommand("info").setExecutor(new CommandInfo());
 		CommandFaction faction = new CommandFaction();
 		getCommand("faction").setExecutor(faction);
 		faction.registerCommand("create", new CreateSubcommand());

@@ -10,7 +10,14 @@ commands:
   alert:
     description: Ceci est une commande d'alerte
     permission: bc.use
+  info:
+    description: Ceci est une commande pour récup les leaderboards
+    permission: info.use
+  setleaderboard:
+    description: Commande à utiliser pour changer manuellement les scoreboards
+    permission: set.use
   spawn:
     description: Ceci est une commande pour se tp au spawn
   faction:
     description: Ceci est une commande
+   
