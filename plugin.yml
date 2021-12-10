@@ -1,8 +1,8 @@
 name: MinecraftPlugin
-version: 0.0.1
+version: 0.9
 author: Adrien13720
 main: fr.adrien13720.minecraftplugin.Main
-api-version: 1.17
+api-version: 1.18
 commands:
   test:
     description: Ceci est une commande de test
