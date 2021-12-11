@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
@@ -78,7 +77,7 @@ public class CommandFaction implements TabExecutor {
 				autoCompletes.add("leave");
 				autoCompletes.add("list");
 				autoCompletes.add("promote");
-				
+				autoCompletes.add("kick");
 				return autoCompletes;
 			
 			}
@@ -117,6 +116,17 @@ public class CommandFaction implements TabExecutor {
 							Team sender_team = team;
 							for(Player player : Bukkit.getOnlinePlayers()) {
 								if(sender_team.hasEntry(player.getName())) {
+									autoCompletes.add(player.getName());
+								}
+							}
+						}
+					}
+					break;
+				case("kick"):
+					for(Team team : teams) {
+						if(team.hasEntry(sender.getName())) {
+							for(Player player : Bukkit.getOnlinePlayers()) {
+								if(team.hasEntry(player.getName())) {
 									autoCompletes.add(player.getName());
 								}
 							}

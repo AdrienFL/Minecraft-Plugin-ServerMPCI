@@ -1,7 +1,5 @@
 package fr.adrien13720.minecraftplugin.commands;
 
-import java.util.Map;
-
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 

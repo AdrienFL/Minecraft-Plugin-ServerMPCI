@@ -1,6 +1,5 @@
 package fr.adrien13720.minecraftplugin.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
@@ -18,7 +17,7 @@ public class LeaveSubCommand extends SubCommand {
 						team.removeEntry(player.getName());
 						player.sendMessage("Vous avez quitté la faction : " + team.getName());
 						player.setDisplayName(player.getName());
-						CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) - CommandFaction.diamondcount.get(player));
+						CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) - CommandFaction.diamondcount.get(player.getName()));
 						return true;
 					}
 				}

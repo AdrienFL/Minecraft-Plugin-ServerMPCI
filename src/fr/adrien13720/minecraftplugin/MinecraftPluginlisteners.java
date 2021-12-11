@@ -1,13 +1,8 @@
 package fr.adrien13720.minecraftplugin;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TimerTask;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,17 +14,14 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -39,9 +31,6 @@ import org.bukkit.scoreboard.Team;
 import org.bukkit.util.BoundingBox;
 
 import fr.adrien13720.minecraftplugin.commands.CommandFaction;
-import net.minecraft.core.IRegistryCustom.Dimension;
-import net.minecraft.world.level.World;
-import net.minecraft.world.level.dimension.WorldDimension;
 
 public class MinecraftPluginlisteners implements Listener {
 	
@@ -218,7 +207,6 @@ public class MinecraftPluginlisteners implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) { // Fonction à modifier
 		Player player = event.getPlayer();
-		Action action = event.getAction();
 		ItemStack it = event.getItem();
 		if(it == null) {
 			return;
@@ -239,7 +227,6 @@ public class MinecraftPluginlisteners implements Listener {
 
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
-		Inventory inv = event.getInventory();
 		Player player = (Player) event.getWhoClicked();
 		ItemStack current = event.getCurrentItem();
 

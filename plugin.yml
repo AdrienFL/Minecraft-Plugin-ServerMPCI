@@ -2,22 +2,21 @@ name: MinecraftPlugin
 version: 0.9
 author: Adrien13720
 main: fr.adrien13720.minecraftplugin.Main
-api-version: 1.18
+api-version: 1.17
 commands:
   test:
-    description: Ceci est une commande de test
+    description: Commande de test
     permission: test.use
   alert:
-    description: Ceci est une commande d'alerte
+    description: Commande de broadcast
     permission: bc.use
   info:
-    description: Ceci est une commande pour récup les leaderboards
+    description: Commande info
     permission: info.use
   setleaderboard:
-    description: Commande à utiliser pour changer manuellement les scoreboards
-    permission: set.use
-  spawn:
-    description: Ceci est une commande pour se tp au spawn
+    description: Commande pour set les leaderboards
+    permission: setleaderboard.use
   faction:
-    description: Ceci est une commande
-   
+    description: Regroupe les commandes de faction
+  spawn:
+    description: Commande pour se tp au spawn
