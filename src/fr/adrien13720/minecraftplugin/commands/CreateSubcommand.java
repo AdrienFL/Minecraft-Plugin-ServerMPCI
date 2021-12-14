@@ -6,12 +6,16 @@ import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+
 public class CreateSubcommand extends SubCommand {
 	
 
 	public boolean onCommand(Player player, Command command, String[] args) {
 
-		
+		if(CommandFaction.deletedteams.contains(args[1])) {
+			player.sendMessage("§cCe nom de faction a déjà été utilisé");
+			return false;
+		}
 		if(!(args.length == 2)) { // teste s'il y a un nom de faction
 			player.sendMessage("§cLa commande s'utilise comme : /faction create <nomdefaction>");
 			return false;
@@ -39,8 +43,8 @@ public class CreateSubcommand extends SubCommand {
 				playerteam.setPrefix("[" + playerteam.getName()+ "] ");
 				player.setPlayerListName(playerteam.getColor() + "[" + playerteam.getName() + "] "  + ChatColor.BLACK +"[Chef] "+ playerteam.getColor() + player.getName());
 				player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] " + playerteam.getColor() + player.getName() + ChatColor.WHITE);
-				CommandFaction.teamdiamondcount.put(playerteam, 0);
-				CommandFaction.teamdiamondlist.add(playerteam);
+				CommandFaction.teamdiamondcount.put(playerteam.getName(), CommandFaction.diamondcount.get(player.getName()));
+				CommandFaction.teamdiamondlist.add(playerteam.getName());
 				return true;
 		}
 		else {

@@ -13,6 +13,10 @@ public class JoinSubCommand extends SubCommand {
 			player.sendMessage("§cLa commande s'utilise comme ça : /faction join <nomfaction>");
 			return false;
 		}
+		if(CommandFaction.deletedteams.contains(args[1])) {
+			player.sendMessage("§cCette faction n'existe plus");
+			return false;
+		}
 		else {
 			for (Team team : CommandFaction.teams) {
 				if (team.hasEntry(player.getName())) { // teste si le joueur est déjà dans une faction
@@ -23,11 +27,12 @@ public class JoinSubCommand extends SubCommand {
 			for (Team team : CommandFaction.teams) {
 				
 				if (team.getName().equals(args[1])) {
+					System.out.println(player.getName());
 					team.addEntry(player.getName());
 					player.setDisplayName(team.getColor()+ "[" + team.getName() + "] " + player.getName() + ChatColor.WHITE);
 					player.setPlayerListName(team.getColor() + "[" + team.getName() + "] " + team.getColor() + player.getName());
-					player.sendMessage("§6Vous avez rejoint la faction :" + team.getName());
-					CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) + CommandFaction.diamondcount.get(player.getName()));
+					player.sendMessage("§6Vous avez rejoint la faction : " + team.getName());
+					CommandFaction.teamdiamondcount.put(team.getName(), CommandFaction.teamdiamondcount.get(team.getName()) + CommandFaction.diamondcount.get(player.getName()));
 
 					return true;
 				}

@@ -91,7 +91,7 @@ public class ColorSubCommand extends SubCommand {
 				colorcode = "";
 		}
 		
-		if(args.length >= 1) {
+		if(args.length == 2) {
 			if(colorlist.contains(colorcode)) {
 				for(Team team : CommandFaction.teams) {
 					if(args[1].equalsIgnoreCase(team.getColor().toString())) {
@@ -106,7 +106,7 @@ public class ColorSubCommand extends SubCommand {
 			}
 		}
 		else {
-			player.sendMessage("§cLa couleur vide n'existe pas, gros débile");
+			player.sendMessage("§cCe n'est pas une couleur, gros débile");
 			return false;
 		}
 		for(Team team : CommandFaction.teams) {
@@ -117,7 +117,7 @@ public class ColorSubCommand extends SubCommand {
 					playerteam.setPrefix(playerteam.getColor() + "[" +playerteam.getName() + "] ");
 					for (String playername : playerteam.getEntries()) {
 						Bukkit.getPlayer(playername).setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + playername + ChatColor.WHITE);
-						Bukkit.getPlayer(playername).setPlayerListName(team.getColor() + "[" + team.getName() + "] " + team.getColor() + player.getName());
+						Bukkit.getPlayer(playername).setPlayerListName(team.getColor() + "[" + team.getName() + "] " + team.getColor() + playername);
 
 					}
 					player.setDisplayName(playerteam.getColor() + "[" + playerteam.getName() + "] " + ChatColor.BLACK + "[Chef] "+ playerteam.getColor() +player.getName() + ChatColor.WHITE);
@@ -131,14 +131,10 @@ public class ColorSubCommand extends SubCommand {
 					return false;
 				}
 			}
-			else {
-				player.sendMessage("Vous n'etes pas dans une faction");
-				return false;
-			}
-		}
-		
-		return false;
 
+		}
+		player.sendMessage("§cVous n'etes pas dans une faction");
+		return false;
 	}
 	
 }

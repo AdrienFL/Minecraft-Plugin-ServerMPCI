@@ -17,7 +17,8 @@ public class LeaveSubCommand extends SubCommand {
 						team.removeEntry(player.getName());
 						player.sendMessage("Vous avez quitté la faction : " + team.getName());
 						player.setDisplayName(player.getName());
-						CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) - CommandFaction.diamondcount.get(player.getName()));
+						player.setPlayerListName(player.getName());
+						CommandFaction.teamdiamondcount.put(team.getName(), CommandFaction.teamdiamondcount.get(team.getName()) - CommandFaction.diamondcount.get(player.getName()));
 						return true;
 					}
 				}
@@ -29,7 +30,11 @@ public class LeaveSubCommand extends SubCommand {
 						CommandFaction.teamleadersnames.remove(player.getName());
 						player.setDisplayName(player.getName());
 						player.setPlayerListName(player.getName());
-						CommandFaction.teamdiamondcount.remove(team);
+						CommandFaction.teamdiamondcount.remove(team.getName());
+						CommandFaction.teamdiamondlist.remove(team.getName());
+						CommandFaction.deletedteams.add(team.getName());
+						CommandFaction.teamnames.remove(team.getName());
+						System.out.println(CommandFaction.teams);
 						return true;
 					}
 					if (team.hasEntry(player.getName()));

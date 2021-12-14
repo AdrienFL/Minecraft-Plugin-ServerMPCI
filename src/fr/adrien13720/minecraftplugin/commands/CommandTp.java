@@ -15,8 +15,7 @@ public class CommandTp implements CommandExecutor {
 		
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			Location ploc = player.getLocation();
-			Location spawn = new Location(player.getWorld(), ploc.getX(), ploc.getY() , ploc.getZ(), 5.2f, -7.5f); //A changer quand on aura les coords du spawn
+			Location spawn = new Location(player.getWorld(), -256.5, 80 , 1580, 180f, -1.8f); //A changer quand on aura les coords du spawn
 			player.sendMessage("§eVous avez été tp au spawn");
 			player.teleport(spawn);
 			

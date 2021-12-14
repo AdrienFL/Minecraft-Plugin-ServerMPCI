@@ -28,9 +28,10 @@ public class CommandFaction implements TabExecutor {
 	public static Set <Player> teamleaders = new HashSet<>();
 	public static Set <String> teamleadersnames = new HashSet<>();
 	public static HashMap<String, Integer> diamondcount = new HashMap<String, Integer>();
-	public static HashMap<Team, Integer> teamdiamondcount = new HashMap<Team, Integer>();
+	public static HashMap<String, Integer> teamdiamondcount = new HashMap<String, Integer>();
 	public static ArrayList<String> playerdiamondlist = new ArrayList<>();
-	public static ArrayList<Team> teamdiamondlist = new ArrayList<>();
+	public static ArrayList<String> teamdiamondlist = new ArrayList<>();
+	public static ArrayList<String> deletedteams = new ArrayList<>();
 	
 	private Map<String, SubCommand> commands = new HashMap<>();
 	

@@ -2,14 +2,12 @@ package fr.adrien13720.minecraftplugin.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 public class KickSubCommand extends SubCommand {
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
-		Player player = (Player) sender;
+	public boolean onCommand(Player player, Command cmd, String[] args) {
 
 		if(args.length != 2) {
 			player.sendMessage("§cCette commande s'utilise : /faction kick <nomdujoueur>");
@@ -17,6 +15,8 @@ public class KickSubCommand extends SubCommand {
 		}
 		else {
 			if(CommandFaction.teamleadersnames.contains(player.getName())) {
+				System.out.println(args[1]);
+				System.out.println(player.getName());
 				if(args[1].equals(player.getName())) {
 					player.sendMessage("§cVous ne pouvez pas vous autokick");
 					return false;
@@ -31,9 +31,11 @@ public class KickSubCommand extends SubCommand {
 							else {
 								Player playerkicked = Bukkit.getPlayer(args[1]);
 								team.removeEntry(args[1]);
-								player.sendMessage(args[1] + "§6 a été kick de la faction");
+								player.sendMessage(args[1] + "§6 a été renvoyé dans son pays");
 								playerkicked.sendMessage("§6Vous avez été viré de la faction " + team.getColor() + team.getName());
-								CommandFaction.teamdiamondcount.put(team, CommandFaction.teamdiamondcount.get(team) - CommandFaction.diamondcount.get(args[1]));
+								CommandFaction.teamdiamondcount.put(team.getName(), CommandFaction.teamdiamondcount.get(team.getName()) - CommandFaction.diamondcount.get(args[1]));
+								player.setDisplayName(player.getName());
+								player.setPlayerListName(player.getName());
 								return true;								
 							}
 						}
